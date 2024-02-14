@@ -35,6 +35,9 @@ import com.diffplug.spotless.ProcessRunner;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class ShfmtStep {
+	// Ensures that a semantic version starting with "3" exists in the `--version` output
+	private static final Pattern VERSION_PATTERN = Pattern.compile("(3\\.\\d+\\.\\d+)$");
+
 	public static String name() {
 		return "shfmt";
 	}
@@ -74,7 +77,7 @@ public class ShfmtStep {
 				"\n    github issue to handle this better: https://github.com/diffplug/spotless/issues/673";
 		final ForeignExe exe = ForeignExe.nameAndVersion("shfmt", version)
 				.pathToExe(pathToExe)
-				.versionRegex(Pattern.compile("([\\d.]+)"))
+				.versionRegex(VERSION_PATTERN)
 				.fixCantFind(howToInstall)
 				.fixWrongVersion(
 						"You can tell Spotless to use the version you already have with {@code shfmt('{versionFound}')}" +
